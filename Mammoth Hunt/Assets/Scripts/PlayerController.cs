@@ -4,7 +4,8 @@ using UnityEngine;
 
 public class PlayerController : MonoBehaviour
 {
-    public Animator anim;
+    public Rigidbody rg;
+    public float moveSpeed;
 
     // Start is called before the first frame update
     void Start()
@@ -15,14 +16,16 @@ public class PlayerController : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        Shoot();
+        Move();
     }
 
-    public void Shoot()
+    public void Move()
     {
-        if (Input.GetKeyDown(KeyCode.Space))
+        Vector3 pos = new Vector3(transform.position.x, transform.position.y, transform.position.z);
+        if(Input.GetAxisRaw("Horizontal") > 0.1f || Input.GetAxisRaw("Horizontal") < -0.1f)
         {
-            anim.SetTrigger("isShoot");
+            pos.x = Input.GetAxisRaw("Horizontal") * moveSpeed * Time.deltaTime;
+            transform.Translate(pos);
         }
     }
 }
